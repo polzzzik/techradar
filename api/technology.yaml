@@ -1,0 +1,228 @@
+openapi: 3.0.3
+info:
+  title: Technology Radar API
+  description: API for managing technology entries
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+paths:
+  /technology:
+    post:
+      summary: Create a new technology entry
+      tags:
+        - Technology
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechnologyInput'
+      responses:
+        '201':
+          description: Technology created successfully
+          content:
+            application/json:
+              schema:
+
+
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal error
+
+    get:
+      summary: Get all technology entries
+      tags:
+        - Technology
+      parameters:
+        - name: limit
+          in: query
+          description: Limit the number of results
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: offset
+          in: query
+          description: Number of items to skip
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of technologies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Technology'
+
+  /technology/{id}:
+    get:
+      summary: Get a specific technology by ID
+      tags:
+        - Technology
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the technology to retrieve
+      responses:
+        '200':
+          description: Technology found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technology'
+        '404':
+          description: Technology not found
+
+    patch:
+      summary: Update a technology entry
+      tags:
+        - Technology
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the technology to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechnologyUpdate'
+      responses:
+        '200':
+          description: Technology updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technology'
+        '404':
+          description: Technology not found
+        '400':
+          description: Invalid input
+
+    delete:
+      summary: Delete a technology entry
+      tags:
+        - Technology
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the technology to delete
+      responses:
+        '204':
+          description: Technology deleted successfully
+        '404':
+          description: Technology not found
+
+components:
+  schemas:
+    Technology:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int
+          example: 1
+        name:
+          type: string
+          example: "Kubernetes"
+        description:
+          type: string
+          example: "Container orchestration system"
+        ring:
+          type: string
+          enum: [adopt, trial, assess, hold]
+          example: "adopt"
+        section:
+          type: string
+          example: "Platforms"
+        status:
+          type: string
+          example: "active"
+        category:
+          type: string
+          example: "Infrastructure"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+      required:
+        - id
+        - name
+        - ring
+        - section
+        - status
+        - category
+        - createdAt
+        - updatedAt
+
+    TechnologyInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Kubernetes"
+        description:
+          type: string
+          example: "Container orchestration system"
+        ring:
+          type: string
+          enum: [adopt, trial, assess, hold]
+          example: "adopt"
+        section:
+          type: string
+          enum: [languages, tools, techniques, platforms]
+          example: "Platforms"
+        category:
+          type: string
+          example: "Infrastructure"
+      required:
+        - name
+        - ring
+        - section
+        - status
+        - category
+
+    TechnologyUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Kubernetes"
+        description:
+          type: string
+          example: "Container orchestration system"
+        ring:
+          type: string
+          enum: [adopt, trial, assess, hold]
+          example: "adopt"
+        section:
+          type: string
+          example: "Platforms"
+        status:
+          type: string
+          example: "active"
+        category:
+          type: string
+          example: "Infrastructure"
+      minProperties: 1

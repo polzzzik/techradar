@@ -1,0 +1,1 @@
+1 *  * * * /app/cron_create_pool_items >> /var/log/cron.log 2>&1
