@@ -1,0 +1,16 @@
+.error {
+  background-image: url('/src/assets/img/network-image.png');
+  background-repeat: no-repeat;
+  background-position: top 1rem right 1rem;
+  background-size: 8rem;
+
+  @media (min-width: 640px) {
+    background-position: top 2rem right 5rem;
+    background-size: 12rem;
+  }
+
+  @media (min-width: 768px) {
+    background-position: top 2rem right 100px;
+    background-size: 20rem;
+  }
+}
